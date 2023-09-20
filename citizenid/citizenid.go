@@ -2,8 +2,10 @@ package citizenid
 
 import (
 	"log"
+	"math/rand"
 	"regexp"
 	"strconv"
+	"time"
 )
 
 func Validate(citizenid string) (bool, error) {
@@ -28,4 +30,28 @@ func Validate(citizenid string) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+func Generate() string {
+
+	random12digit := make([]int, 12)
+	var random12digit_s string
+	for index, _ := range random12digit {
+		random12digit[index] = rand.New(rand.NewSource(time.Now().UnixNano())).Intn(9)
+		random12digit_s += strconv.Itoa(random12digit[index])
+	}
+
+	_13rddigit := get13rdDigit(random12digit)
+
+	return random12digit_s + strconv.Itoa(_13rddigit)
+}
+
+func get13rdDigit(nums []int) int {
+
+	var sumdigit int
+	for i, num := range nums {
+		sumdigit += num * (13 - i)
+	}
+
+	return (11 - (sumdigit % 11)) % 10
 }

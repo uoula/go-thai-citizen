@@ -65,3 +65,15 @@ func TestOK2(t *testing.T) {
 	assert.Equal(nil, err)
 
 }
+
+func TestGenerate(t *testing.T) {
+
+	//test 1000 round
+	for i := 0; i < 1000; i++ {
+		citizenid := Generate()
+		ok, err := Validate(citizenid)
+		assert := assert.New(t)
+		assert.Equal(true, ok)
+		assert.Equal(nil, err)
+	}
+}
